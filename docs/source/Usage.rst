@@ -6,41 +6,7 @@ In this manual you will learn to use the honeypot (specifically, HPFeeds and MIS
 Starting Honeypot Sensor
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
-1.	Open your terminal then see your IP Address configuration
-
-.. code-block:: RST
-
-  $ ifconfig
-
-2.	Open MISP Dashboard (from IP that you have), and using default username : admin@admin.test , password : admin. For this configuration related by CSCISAC MISP.
-
-.. image:: images/misp-csc-isac-login.png
-   :width: 800
-
-3.	Setting your baseurl (IP or Domain configuration) on server setting and maintenance then tab MISP Setting. Next setting value “false” on MISP disable emailing.
-
-.. image:: images/misp-csc-isac-server-settings.png
-   :width: 800
-
-4.	Make sure your worker is running well with green notification and worker process is “OK”
-
-.. image:: images/misp-csc-isac-server-settings-green-notif.png
-   :width: 800
-
-5.	Enable your MISP Feeds Server on Sync Actions, then enable your MISP feed need
-
-.. image:: images/misp-feeds.png
-   :width: 800
-
-6.	Add new organizations on your MISP in tab administrations then add organisations.
-
-.. image:: images/misp-adding-org.png
-   :width: 800
-
-7.	Add new users on your MISP, same like your add new organizations in tab administrations then add users.
-
-.. image:: images/misp-add-user.png
-   :width: 800
+This is for Cowrie and Dionea usage
 
 Starting HPFeeds & Honeypot Parsing Engine
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -63,7 +29,9 @@ and the result can be similar to this:
 
 2.	To check the process of the mnemosyne we can type the command below:
 
-$ supervisorctl status mnemosyne
+.. code-block:: RST
+
+  $ supervisorctl status mnemosyne
 
 .. image:: images/hpfeeds-checking-mnemosyne-process.png
    :width: 800
@@ -151,7 +119,91 @@ Edit it like this, after that copy the hpfeeds.yaml to /opt/Dionaea/etc/Dionaea/
 Starting Honeypot Parsing Engine
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+1.	Now it’s time to continue the installation of tools that we need to parse the hexadecimal into the ASCII format.
 
+   1. Tools that we need:
+
+      1. Xxd
+      2. Inotify-tools for the inotifywait tools
+      3. Diffutils for the diff tools
+      4. Sed (Installed by default)
+      5. Md5sum (Installed by default)
+
+.. code-block:: RST
+
+  $ sudo apt install xxd diffutils inotify-tools nano
+
+2.	After we install all the tools that we need. In appendix provided the script for the bash script utilizing the tools that we already installed. The script name is NewFile.sh but feel free to call it whatever it is and don’t forget to store it at malware directory you can create the malware directory by typing:
+
+.. code-block:: RST
+
+  $ mkdir malware && cd malware
+
+3.	Create a file called NewFile.sh 
+
+.. code-block:: RST
+
+  $ nano NewFile.sh
+
+And add this following bash script: 
+
+.. code-block:: RST
+
+  startCom="Compile start $(date +%c:%N)"
+  fileName="$(date +%Y%m%d%s).bin"
+  doneCom="Compile finish $(date +%c:%N)"
+  inotifywait -m /malware -e create -e moved_to |
+  	while read path action file; do
+      	echo "The file '$file' appeared in directory '$path' via '$action'"
+      	# do something with the file
+      	echo `mv $file  parsed/$file.modified`
+      	echo "Creating parsed/$file.modified.hash and parsed/$file.modified.mal"
+      	echo `sed '2d' parsed/$file.modified > parsed/$file.modified.hash`
+      	echo `sed '1d' parsed/$file.modified > parsed/$file.modified.mal`
+      	echo "$startCom"
+      	echo `xxd -r -p parsed/$file.modified.mal parsed/$file.modified.bin`
+      	echo "$doneCom"
+      	echo `md5sum parsed/$file.modified.bin | awk '{ print $1 }' > parsed/$file.modified.bin.hash `
+      	echo `diff -w parsed/$file.modified.bin.hash parsed/$file.modified.hash && echo "hash check is the same" || “Hash value is different”`
+      	# echo "Deleting $file, parsed/$file.modified.mal, parsed/$file.modified.bin.hash, parsed/$file.modified.hash”
+      	#echo `rm $file`
+      	#echo `rm parsed/$file.modified`
+      	#echo `rm parsed/$file.modified.mal`
+      	#echo `rm parsed/$file.modified.bin.hash`
+      	#echo `rm parsed/$file.modified.hash`
+     done
+
+4.	To change the permission, we can simply type this:
+
+.. code-block:: RST
+
+  $  chmod u+x NewFIle.sh
+
+5.	This directory used by inotifywait to generate new file that has been extracted from malware directory and after we have done everything right the malware folder should look like this:
+
+.. code-block:: RST
+
+  $ ll
+
+.. image:: images/list-of-files-and-directory-in-malware-directory.png
+   :width: 800
+
+6.	And after we change the permission, we also need to create new directory to store the modified file called parsed we can simply type this:
+
+.. code-block:: RST
+
+  $ mkdir parsed
+
+7.	After that we can run the NewFile.sh by simply typing this:
+
+.. code-block:: RST
+
+  $ ./NewFile.sh
+
+8.	After that we can run the NewFile.sh by simply typing this:
+
+.. image:: images/run-newfilesh-command.png
+   :width: 800
 
 Starting MISP
 ^^^^^^^^^^^^^

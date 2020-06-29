@@ -136,6 +136,10 @@ Note that if you can run the command without giving any input the tag of the doc
 Listening on port 22 and 23
 ---------------------------
 
+.. code-block:: RST
+
+  Note: this service emulated by Cowrie so the attacker will be trapped
+
 At this moment, you would notice that cowrie honeypot us listening on port 2222 for SSH protocol and 2223 for telnet protocol. This however, will not ensure that you will gain any data since those two port numbers are considered as illegitimate ports usage. Thus, a change is needed to set the port number into the default port number for each service. In order to configure the settings of the docker image, you will need to access the docker image as root:
 
 .. code-block:: RST
