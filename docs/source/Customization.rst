@@ -43,8 +43,4 @@ MISP Customization Guideline
 .. image:: images/misp-add-user.png
    :width: 800
 
-Honeynet Sensor Integration
-^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-Honeynet Sensor integration customize here
 

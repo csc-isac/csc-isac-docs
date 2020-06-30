@@ -1,7 +1,7 @@
 Development
 ===========
 
-Ini testing Development Page
+This is for development page where the development of this documentation will be updated regularly.
 
 Development Notes
 ^^^^^^^^^^^^^^^^^
@@ -14,15 +14,12 @@ Git branches development here
 Release Versioning
 ^^^^^^^^^^^^^^^^^^
 
-Version releases here
-
-Ticketing System
-^^^^^^^^^^^^^^^^
-
-The ticketing system goes here
+1.	v1.0 = 30 June 2020
+	Updating Usage, Customization, and Development Page
 
 Contribute
 ^^^^^^^^^^
 
-The contribute here
+Documentation Editor = Patricia H
+Advisor = Yohanes S.
 

@@ -3,11 +3,6 @@ Usage
 
 In this manual you will learn to use the honeypot (specifically, HPFeeds and MISP with the community) using existing docker images that have been created and distributed through github or docker hub.
 
-Starting Honeypot Sensor
-^^^^^^^^^^^^^^^^^^^^^^^^
-
-This is for Cowrie and Dionea usage
-
 Starting HPFeeds & Honeypot Parsing Engine
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The following are the steps of how to start to use HPFeeds and HPE.
