@@ -18,6 +18,8 @@ Release Versioning
 	Updating Usage, Customization, and Development Page
 2.	v1.1 = 5 July 2020
 	Updating Usage and Development Page
+3. 	v2.0 = 15 July 2020
+	Usage, Introduction, and Development modified, Customization deleted
 
 Contributors
 ^^^^^^^^^^^^
