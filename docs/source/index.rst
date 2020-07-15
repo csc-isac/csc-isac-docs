@@ -15,7 +15,6 @@ Welcome to CSC-ISAC Project to control all the things into one project Honeypots
    Introduction
    Installation
    Usage   
-   Customization
    Development
    Final Remarks
    License
